@@ -1,3 +1,5 @@
+// App.js
+
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Button, Image } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -25,110 +27,7 @@ export default class App extends React.Component {
       },
     };
 
-    ImagePicker.simport React, { useState, useEffect ,useRef} from 'react';
-    import { Text, View, TouchableOpacity , StyleSheet,SafeAreaView, TouchableOpacityProps, Modal , Image } from 'react-native';
-    import { Camera } from 'expo-camera';
-    import { FontAwesome } from '@expo/vector-icons';
-    
-    export default function App() {
-      const camRef = useRef(null);
-      const [hasPermission, setHasPermission] = useState(null);
-      const [type, setType] = useState(Camera.Constants.Type.back);
-      const [capturedPhoto , setCapturedPhoto] = useState(null);
-      const [open , SetOpen] = useState(false);
-    
-      useEffect(() => {
-        (async () => {
-          const { status } = await Camera.requestPermissionsAsync();
-          setHasPermission(status === 'granted');
-        })();
-      }, []);
-    
-      if (hasPermission === null) {
-        return <View />;
-      }
-      if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-      }
-    
-    async function takePicture(){
-      if (camRef){
-        const data = await camRef.current.takePictureAsync();
-        setCapturedPhoto(data.uri);
-        SetOpen(true);
-        console.log(data);
-      }
-    }
-      return (
-        <SafeAreaView style={{ flex: 1 }}>
-          <Camera
-           style={{ flex: 1 }}
-            type={type}
-            ref ={camRef}
-            >
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
-              }}>
-              <TouchableOpacity
-                style={{
-                  position: 'absolute',
-                 bottom: 20,
-                  left:20,
-                }}
-                onPress={() => {
-                  setType(
-                    type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back
-                  );
-                }}
-                >
-                <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Trocar </Text>
-              </TouchableOpacity>
-            </View>
-          </Camera>
-    
-    <TouchableOpacity style={styles.button}onPress={ takePicture}>
-    <FontAwesome name ="window-close"size={23}color="#fff"/>
-      </TouchableOpacity>
-    
-      {capturedPhoto &&
-      <Modal
-      animationType ="slide"
-      transparent={false}
-      visible={open}
-      >
-    <View style={{flex: 1, justifyContent:'center', alignItems:'center', margin :20}}>
-    <TouchableOpacity style={styles.button}onPress={ takePicture}>
-    <FontAwesome name ="window-close"size={50}color="#fff"/>
-      </TouchableOpacity>
-    
-    <Image
-    style={{ width: '100%', height:300,borderRadius:20}}
-    source={{uri :capturedPhoto}}
-    />
-        </View>
-        </Modal>
-    }
-    </SafeAreaView>
-      );
-    }
-    const styles = StyleSheet.create({
-      container: {
-        flex:1,
-        justifyContent :'center',
-      },
-      button:{
-        justifyContent:'center',
-        alignItems :'center',
-        margin :20 ,
-        borderRadius:10,
-        height :50
-      }
-    });howImagePicker(options, res => {
+    ImagePicker.showImagePicker(options, res => {
       console.log('Response = ', res);
 
       if (res.didCancel) {
